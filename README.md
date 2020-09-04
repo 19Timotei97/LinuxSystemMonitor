@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CppND-System-Monitor
 
 Starter code for System Monitor Project in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
@@ -35,12 +34,6 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 3. Run the resulting executable: `./build/monitor`
 ![Starting System Monitor](images/starting_monitor.png)
 
-4. Follow along with the lesson.
-
-5. Implement the `System`, `Process`, and `Processor` classes, as well as functions within the `LinuxParser` namespace.
-
-6. Submit!
 =======
 # LinuxSystemMonitor
 Implemented a System monitor that displays various information regarding current processes running on a system.
->>>>>>> 45e814589382daca7f870282e228e911a94338cd
