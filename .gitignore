@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 monitor
 a.out
 settings.json
@@ -38,4 +37,3 @@ build/*
 *.exe
 *.out
 *.app
->>>>>>> 45e814589382daca7f870282e228e911a94338cd
