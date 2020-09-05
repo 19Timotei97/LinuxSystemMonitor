@@ -20,11 +20,11 @@ Processor& System::Cpu()
 }
 
 // Return a container composed of the system's processes
-vector<Process>& System::Processes() 
+std::vector<Process>& System::Processes() 
 { 
   vector <int> tempPIDs = LinuxParser::Pids();
   
-  for (long unsigned i = 0; i < tempPIDs.size(); i++)
+  for (long unsigned localIndex = 0; localIndex < tempPIDs.size(); localIndex++)
   {
     Process proc;
     proc.setID(tempPIDs[i]);
@@ -32,6 +32,7 @@ vector<Process>& System::Processes()
   }
   
   std::sort(processes_.begin(), processes_.end());
+
   return processes_; 
 }
 

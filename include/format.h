@@ -3,9 +3,10 @@
 
 #include <string>
 
+// namespace Format
 namespace Format 
 {
-  std::string ElapsedTime(long times);
-};                                    // namespace Format
+  std::string ElapsedTime(long);
+};
 
 #endif

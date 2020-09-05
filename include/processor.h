@@ -4,8 +4,9 @@
 
 #include "linux_parser.h"
 
-class Processor {
- public:
+class Processor 
+{
+public:
   float Utilization();
 };
 

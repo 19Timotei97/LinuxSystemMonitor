@@ -11,21 +11,29 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-// DONE: An example of how to read data from the filesystem
+// Retrieve the operating system of the computer
 string LinuxParser::OperatingSystem() {
-  string line;
-  string key;
-  string value;
+  
+  string line, key, value;
+  
   std::ifstream filestream(kOSPath);
+
   if (filestream.is_open()) {
+    
     while (std::getline(filestream, line)) {
+      
       std::replace(line.begin(), line.end(), ' ', '_');
       std::replace(line.begin(), line.end(), '=', ' ');
       std::replace(line.begin(), line.end(), '"', ' ');
+      
       std::istringstream linestream(line);
+      
       while (linestream >> key >> value) {
+        
         if (key == "PRETTY_NAME") {
+          
           std::replace(value.begin(), value.end(), '_', ' ');
+          
           return value;
         }
       }
@@ -34,16 +42,17 @@ string LinuxParser::OperatingSystem() {
   return value;
 }
 
-// DONE: An example of how to read data from the filesystem
-string LinuxParser::Kernel() {
-  string os, kernel;
-  string line;
+// Retrieve the Kernel of the system
+string LinuxParser::Kernel() 
+{
+  string os, kernel, line;
   
   std::ifstream stream(kProcDirectory + kVersionFilename);
   
-  if (stream.is_open()) {
-    
+  if (stream.is_open()) 
+  {  
     std::getline(stream, line);
+    
     std::istringstream linestream(line);
     
     linestream >> os >> kernel;
@@ -52,25 +61,28 @@ string LinuxParser::Kernel() {
   return kernel;
 }
 
-// BONUS: Update this to use std::filesystem
-vector<int> LinuxParser::Pids() {
-  vector<int> pids;
+// TOD: Update this to use std::filesystem
+std::vector<int> LinuxParser::Pids() {
+  
+  std::vector<int> pids;
   
   DIR* directory = opendir(kProcDirectory.c_str());
   
   struct dirent* file;
   
-  while ((file = readdir(directory)) != nullptr) {
-    
+  while ((file = readdir(directory)) != nullptr) 
+  {
     // Is this a directory?
-    if (file->d_type == DT_DIR) {
-      
+    if (file->d_type == DT_DIR) 
+    {
       // Is every character of the name a digit?
       string filename(file->d_name);
       
-      if (std::all_of(filename.begin(), filename.end(), isdigit)) {
+      if (std::all_of(filename.begin(), filename.end(), isdigit)) 
+      {
         
         int pid = stoi(filename);
+        
         pids.push_back(pid);
       }
     }
@@ -90,10 +102,10 @@ float LinuxParser::MemoryUtilization()
   
   std::ifstream filestream(kProcDirectory + kMeminfoFilename);
   
-  if (filestream.is_open()) {
-    
-    while (std::getline(filestream, line)) {
-      
+  if (filestream.is_open()) 
+  {
+    while (std::getline(filestream, line)) 
+    {  
       /*
        * https://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c 
        * Remove all the spaces from a container (in this case, a string).
@@ -102,22 +114,19 @@ float LinuxParser::MemoryUtilization()
        * So a call to string::erase is needed to actually modify the length of the container 
       */
 //       line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
-      
 //       std::replace(line.begin(), line.end(), ':', ' ');
-      
-//       line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
       
       std::istringstream linestream(line);
       
       while (linestream >> key)
       {
-        if (key.compare("MemTotal") == 0)
+        if (0 == key.compare("MemTotal"))
         {
           linestream >> value;
           memTotal = std::stof(value);
         }
             
-        if (key.compare("MemFree") == 0)
+        if (0 == key.compare("MemFree"))
         {
           linestream >> value;
           memFree = std::stof(value);
@@ -126,13 +135,14 @@ float LinuxParser::MemoryUtilization()
     }
   }
   
-  return memTotal - memFree;
+  return (memTotal - memFree);
 }
 
 // Read and return the system uptime
-long LinuxParser::UpTime() {
-
+long LinuxParser::UpTime() 
+{
   string line;
+  
   long upTime = 0, upTimeAndIdle = 0;
 
   std::ifstream filestream(kProcDirectory + kUptimeFilename);
@@ -151,8 +161,8 @@ long LinuxParser::UpTime() {
 
 
 // Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { 
-  
+long LinuxParser::Jiffies()
+{
   string line, key, value;
   long jiffies = 0;
 
@@ -182,10 +192,9 @@ long LinuxParser::Jiffies() {
 
 
 // Read and return the number of active jiffies for a PID
-// [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) 
 {
-  // Don't know 
+  // TODO: implement in the future 
   return 0; 
 }
 
@@ -205,9 +214,9 @@ long LinuxParser::ActiveJiffies()
 
       while (linestream >> key)
       {
-        if (key.compare("cpu") == 0)
+        if (0 == key.compare("cpu"))
         {
-          for (size_t i = 0; i < 3; i++)
+          for (auto localIndex = 0; localIndex < 3; localIndex++)
           {
             linestream >> value;
             activeJiffies += stol(value);
@@ -237,9 +246,9 @@ long LinuxParser::IdleJiffies()
 
       while (linestream >> key)
       {
-        if (key.compare("cpu") == 0)
+        if (0 == key.compare("cpu"))
         {
-          for (auto i = 0; i < 3; i++)
+          for (auto localIndex = 0; localIndex < 3; localIndex++)
           {
             linestream >> value;
           }
@@ -257,8 +266,7 @@ long LinuxParser::IdleJiffies()
     }
   }
  
-  return idleJiffies; 
-
+  return idleJiffies;
 }
 
 // Read and return CPU utilization
@@ -319,7 +327,7 @@ int LinuxParser::TotalProcesses()
 
       while (linestream >> key)
       {
-        if (key.compare("processes"))
+        if (0 == key.compare("processes"))
         {
           linestream >> totalProcs;
         }
@@ -386,7 +394,7 @@ int LinuxParser::RunningProcesses()
 
       while (linestream >> key)
       {
-        if (key.compare("procs_running"))
+        if (0 == key.compare("procs_running"))
         {
           linestream >> runningProcs;
         }

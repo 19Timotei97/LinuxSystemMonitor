@@ -10,8 +10,6 @@ string Format::ElapsedTime(long seconds)
 { 
   string hH, mM;
 
-  int mMint = seconds / 60;
-
   mM = std::to_string((seconds / 60) % 60);
 
   hH = std::to_string(seconds / 3600);
