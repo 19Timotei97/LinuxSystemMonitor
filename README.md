@@ -1,4 +1,4 @@
-# CppND-System-Monitor
+# Linux-System-Monitor created with C++ Programming Language
 
 System Monitor Project included in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
 
@@ -30,7 +30,7 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 2. Build the project: `make build`
 
 3. Run the resulting executable: `./build/monitor`
-![Starting System Monitor](images/starting_monitor.png)
+![Starting System Monitor]
 
 # LinuxSystemMonitor
 Implemented a System monitor that displays various information regarding current processes running on a system.
